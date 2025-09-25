@@ -27,17 +27,37 @@ player_surf = pygame.image.load(
     "graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surf.get_rect(midbottom=(80, 300))
 
+score_surf = test_font.render('Score: ', False, 'Black')
+score_rect = score_surf.get_rect(bottomright=(700, 50))
+
 # --- Main Game Loop ----------------------------------------------------------
 while True:
     # 1) Handle OS/window events (close button, etc.)
+    mouse_pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
+        # MOUSEBUTTONUP MOUSRBUTTONDOWN MOUSEMOTION
+        # if event.type == pygame.MOUSEMOTION:
+        #     print("Moving Mouse")
+        #     print(mouse_pos)
+        if event.type == pygame.MOUSEBUTTONUP:
+            print("mouse up")
+            print(mouse_pos)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print("mouse down")
+            print(mouse_pos)
+
+        if event.type == pygame.MOUSEMOTION:
+            # event.pos is the mouse position for THIS motion event
+            if player_rect.collidepoint(event.pos):
+                print("Hovering player")
+
     # 2) Update game state (movement, timers, etc.)
     # Move snail left by 2 pixels per frame
-    snail_rect.x -= 2
+    snail_rect.x -= 4
 
     # If the snail leaves the screen to the left, wrap it back to the right
     if snail_rect.right <= 0:               # fully off-screen
@@ -52,6 +72,15 @@ while True:
     # Actors (use their rects for blitting so image+position stay in sync)
     screen.blit(snail_surface, snail_rect)
     screen.blit(player_surf, player_rect)
+
+    screen.blit(score_surf, score_rect)
+
+    # if player_rect.colliderect(snail_rect):
+    #     print('Collision')
+
+    mouse_pos = pygame.mouse.get_pos()
+    # if player_rect.collidepoint(mouse_pos):
+    #     print(pygame.mouse.get_pressed())
 
     # 4) Flip the back buffer to the screen and cap FPS
     pygame.display.update()
