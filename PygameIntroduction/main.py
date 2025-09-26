@@ -1,3 +1,4 @@
+# Left off at 1:36 | https://www.youtube.com/watch?v=AY9MnQ4x3zk&t=4675s
 import pygame
 from sys import exit
 
@@ -39,6 +40,15 @@ while True:
             pygame.quit()
             exit()
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                print('Jump')
+
+        if event.type == pygame.KEYUP:
+            print('Key Up')
+        if event.type == pygame.KEYDOWN:
+            print('Key Down')
+
         # MOUSEBUTTONUP MOUSRBUTTONDOWN MOUSEMOTION
         # if event.type == pygame.MOUSEMOTION:
         #     print("Moving Mouse")
@@ -67,13 +77,21 @@ while True:
     # Background layers first
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
-    screen.blit(text_surface, (300, 50))
+    pygame.draw.rect(screen, 'Pink', score_rect)
+    pygame.draw.rect(screen, 'Pink', score_rect, 20)
+    screen.blit(score_surf, score_rect)
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        print('Jump')
+
+    # pygame.draw.line(screen, 'Gold', (0, 0), (800, 400))
+    # pygame.draw.ellipse(screen, 'Brown', pygame.Rect(
+    #     50, 200, 100, 100), width=20)
 
     # Actors (use their rects for blitting so image+position stay in sync)
     screen.blit(snail_surface, snail_rect)
     screen.blit(player_surf, player_rect)
-
-    screen.blit(score_surf, score_rect)
 
     # if player_rect.colliderect(snail_rect):
     #     print('Collision')
